@@ -1843,10 +1843,8 @@ run_single_task() {
       CODEX_LAST_MESSAGE_FILE=""
     fi
 
-    # Mark task complete for GitHub issues (since AI can't do it)
-    if [[ "$PRD_SOURCE" == "github" ]]; then
-      mark_task_complete "$current_task"
-    fi
+    # Mark task complete (AI doesn't always do this correctly)
+    mark_task_complete "$current_task"
 
     # Create PR if requested
     if [[ "$CREATE_PR" == true ]] && [[ -n "$branch_name" ]]; then
@@ -2818,6 +2816,27 @@ main() {
 
   # Check requirements
   check_requirements
+
+  # Change to PRD directory if it's an absolute or relative path
+  if [[ "$PRD_SOURCE" == "markdown" ]] || [[ "$PRD_SOURCE" == "yaml" ]]; then
+    if [[ "$PRD_FILE" == */* ]]; then
+      # Get absolute path and extract directory
+      local prd_abs_path
+      prd_abs_path=$(cd "$(dirname "$PRD_FILE")" && pwd)/$(basename "$PRD_FILE")
+      local prd_dir
+      prd_dir=$(dirname "$prd_abs_path")
+
+      # Update PRD_FILE to be relative to the new directory
+      PRD_FILE=$(basename "$PRD_FILE")
+
+      # Change to the PRD directory
+      cd "$prd_dir" || {
+        log_error "Failed to change to directory: $prd_dir"
+        exit 1
+      }
+      log_info "Working directory: $prd_dir"
+    fi
+  fi
 
   # Show banner
   echo "${BOLD}============================================${RESET}"
