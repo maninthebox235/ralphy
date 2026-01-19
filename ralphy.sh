@@ -1432,21 +1432,9 @@ $step. Run linting and ensure it passes before proceeding."
     step=$((step+1))
   fi
 
-  # Adjust completion step based on PRD source
-  case "$PRD_SOURCE" in
-    markdown)
-      prompt="$prompt
-$step. Update the PRD to mark the task as complete (change '- [ ]' to '- [x]')."
-      ;;
-    yaml)
-      prompt="$prompt
-$step. Update ${PRD_FILE} to mark the task as completed (set completed: true)."
-      ;;
-    github)
-      prompt="$prompt
+  # Task completion is handled by the system, not the AI
+  prompt="$prompt
 $step. The task will be marked complete automatically. Just note the completion in $PROGRESS_FILE."
-      ;;
-  esac
 
   step=$((step+1))
 
@@ -2820,6 +2808,11 @@ main() {
   # Change to PRD directory if it's an absolute or relative path
   if [[ "$PRD_SOURCE" == "markdown" ]] || [[ "$PRD_SOURCE" == "yaml" ]]; then
     if [[ "$PRD_FILE" == */* ]]; then
+      # Convert config paths to absolute before changing directory
+      RALPHY_DIR="$(pwd)/$RALPHY_DIR"
+      PROGRESS_FILE="$(pwd)/$PROGRESS_FILE"
+      CONFIG_FILE="$(pwd)/$CONFIG_FILE"
+
       # Get absolute path and extract directory
       local prd_abs_path
       prd_abs_path=$(cd "$(dirname "$PRD_FILE")" && pwd)/$(basename "$PRD_FILE")
