@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="DAX">
-    <meta name="theme-color" content="#0891b2">
     <title>DAX Quick Helper</title>
     <style>
         * {
@@ -82,6 +81,7 @@
             border-bottom: 2px solid #f0f0f0;
             margin-bottom: 0.75rem;
             cursor: pointer;
+            -webkit-user-select: none;
             user-select: none;
         }
 
@@ -273,37 +273,6 @@
             </div>
         </div>
 
-        <!-- BREAST CANCER -->
-        <div class="card" id="card-breast">
-            <div class="card-header" onclick="toggleCard('breast')">
-                <div class="card-title">🎗️ Breast Cancer</div>
-                <div class="card-toggle">▼</div>
-            </div>
-            <div class="card-body">
-                <h3>Opening</h3>
-                <div class="template">
-                    <button class="copy-btn" onclick="copy(this)">Copy</button>
-                    "This is a follow-up visit for [patient name], a [age]-year-old female with a history of [stage] [type] breast cancer, diagnosed in [month/year], status post [treatment: lumpectomy/mastectomy, chemotherapy, radiation]. She is currently on [hormonal therapy/none]."
-                </div>
-
-                <h3>Key Points to Mention</h3>
-                <ul>
-                    <li>Time since diagnosis and treatment</li>
-                    <li>Current medications (tamoxifen, aromatase inhibitors)</li>
-                    <li>Side effects and adherence</li>
-                    <li>New symptoms: pain, masses, skin changes</li>
-                    <li>Lymphedema assessment</li>
-                    <li>Bone health</li>
-                </ul>
-
-                <h3>Exam</h3>
-                <div class="template">
-                    <button class="copy-btn" onclick="copy(this)">Copy</button>
-                    "Breast exam: Surgical site is well-healed with no masses, skin changes, or lymphedema. Opposite breast shows no masses or abnormalities. Lymph node exam is unremarkable."
-                </div>
-            </div>
-        </div>
-
         <!-- OVARIAN CANCER -->
         <div class="card" id="card-ovarian">
             <div class="card-header" onclick="toggleCard('ovarian')">
@@ -311,24 +280,44 @@
                 <div class="card-toggle">▼</div>
             </div>
             <div class="card-body">
-                <h3>Opening</h3>
+                <h3>Opening - Surveillance Visit</h3>
                 <div class="template">
                     <button class="copy-btn" onclick="copy(this)">Copy</button>
                     "This is a surveillance visit for [patient name] with a history of [stage] [type] ovarian cancer, diagnosed in [month/year], status post [surgical debulking/hysterectomy/BSO], chemotherapy regimen of [specific agents], completed [date]."
                 </div>
 
-                <h3>Key Points</h3>
-                <ul>
-                    <li>CA-125 trends (rising/stable/declining)</li>
-                    <li>Abdominal/pelvic symptoms: bloating, pain, early satiety</li>
-                    <li>Bowel/bladder function</li>
-                    <li>Neuropathy or chemo side effects</li>
-                </ul>
-
-                <h3>Exam</h3>
+                <h3>Opening - New Diagnosis</h3>
                 <div class="template">
                     <button class="copy-btn" onclick="copy(this)">Copy</button>
-                    "Abdominal exam shows no masses, organomegaly, or ascites. No lymphadenopathy appreciated."
+                    "Patient presents with newly diagnosed [stage] ovarian cancer. She underwent [diagnostic surgery/biopsy] on [date] showing [histology]. She is here to discuss treatment options."
+                </div>
+
+                <h3>Key Points to Cover</h3>
+                <ul>
+                    <li><strong>CA-125 trends</strong> - "CA-125 today is [value], which is [rising/stable/declining] from [prior value] on [date]"</li>
+                    <li><strong>Symptoms:</strong> abdominal/pelvic pain, bloating, early satiety, change in appetite</li>
+                    <li><strong>Bowel/bladder function</strong> - constipation, diarrhea, urinary frequency</li>
+                    <li><strong>Chemo side effects:</strong> neuropathy, fatigue, cytopenias</li>
+                    <li><strong>Quality of life</strong> and functional status</li>
+                    <li><strong>Ascites</strong> - new or worsening abdominal distension</li>
+                </ul>
+
+                <h3>Physical Exam</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Abdominal exam shows no masses, organomegaly, or ascites. No supraclavicular or inguinal lymphadenopathy appreciated. Pelvic exam shows no masses or adnexal tenderness."
+                </div>
+
+                <h3>If Imaging Reviewed</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "I reviewed today's CT scan showing [no evidence of disease/stable disease/progression with new findings of...]"
+                </div>
+
+                <h3>Treatment Plan Examples</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Plan is to continue surveillance with CA-125 and exam every [3 months]. I will order CT imaging in [timeframe] per NCCN guidelines."
                 </div>
             </div>
         </div>
@@ -340,24 +329,56 @@
                 <div class="card-toggle">▼</div>
             </div>
             <div class="card-body">
-                <h3>Opening</h3>
+                <h3>Opening - Dysplasia Follow-up</h3>
                 <div class="template">
                     <button class="copy-btn" onclick="copy(this)">Copy</button>
-                    "Patient presents for [follow-up colposcopy/surveillance] for [CIN 2/3, cervical cancer stage X, HPV-positive high-grade lesion]."
+                    "Patient presents for [follow-up colposcopy/surveillance] for [CIN 2/3, HSIL], previously treated with [LEEP/cone biopsy/cryotherapy] on [date]."
                 </div>
 
-                <h3>Key Points</h3>
-                <ul>
-                    <li>Previous biopsy results and dates</li>
-                    <li>Treatment history (LEEP, cone biopsy, chemoradiation)</li>
-                    <li>HPV status</li>
-                    <li>Abnormal bleeding or discharge</li>
-                </ul>
-
-                <h3>Exam</h3>
+                <h3>Opening - Cancer Surveillance</h3>
                 <div class="template">
                     <button class="copy-btn" onclick="copy(this)">Copy</button>
-                    "Pelvic exam: External genitalia normal. Speculum exam shows [cervix appears normal/lesion at X o'clock position]. Bimanual exam is non-tender with no masses."
+                    "Patient with history of [stage] cervical cancer, [histology: squamous cell/adenocarcinoma], diagnosed [month/year], status post [chemoradiation/radical hysterectomy], completed [date]. Here for surveillance visit."
+                </div>
+
+                <h3>Opening - New Cancer Diagnosis</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Patient presents with newly diagnosed cervical cancer, [stage] [histology], identified on biopsy [date]. Here to discuss treatment planning."
+                </div>
+
+                <h3>Key Points to Cover</h3>
+                <ul>
+                    <li><strong>HPV status</strong> - co-testing results, high-risk subtypes</li>
+                    <li><strong>Previous treatments</strong> - LEEP, cone biopsy, excisional procedures with dates</li>
+                    <li><strong>Pathology</strong> - CIN grade, margins, depth of invasion</li>
+                    <li><strong>Symptoms:</strong> abnormal vaginal bleeding, post-coital bleeding, discharge</li>
+                    <li><strong>Pain</strong> - pelvic pain, dyspareunia</li>
+                    <li><strong>Bowel/bladder symptoms</strong> if advanced disease</li>
+                </ul>
+
+                <h3>Physical Exam - Colposcopy</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Colposcopy performed. Cervix visualized after application of acetic acid showing [acetowhite lesion at X o'clock/no acetowhite changes]. Biopsies obtained at [locations] and sent to pathology. Endocervical curettage performed."
+                </div>
+
+                <h3>Physical Exam - Surveillance</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Pelvic exam: External genitalia normal. Speculum exam shows [cervix appears normal/well-healed post-treatment/lesion at X o'clock position measuring approximately X cm]. Vaginal walls appear normal. Bimanual exam shows no pelvic masses, normal-sized uterus, no parametrial thickening or nodularity."
+                </div>
+
+                <h3>For Post-Radiation Patients</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Speculum exam shows expected radiation changes to vaginal mucosa and cervix. No evidence of recurrent disease. Vaginal vault is well-healed."
+                </div>
+
+                <h3>Assessment & Plan Examples</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Plan for continued surveillance with pelvic exam and HPV co-testing in [3-6 months] per guidelines. Patient counseled on symptoms requiring earlier evaluation."
                 </div>
             </div>
         </div>
@@ -365,24 +386,61 @@
         <!-- ENDOMETRIAL -->
         <div class="card" id="card-endometrial">
             <div class="card-header" onclick="toggleCard('endometrial')">
-                <div class="card-title">💊 Endometrial Cancer</div>
+                <div class="card-title">🫀 Endometrial Cancer</div>
+                <div class="card-toggle">▼</div>
+            </div>
+            <div class="card-body">
+                <h3>Opening - Surveillance</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "This is a post-treatment visit for [patient name] with [stage] [grade] [type: endometrioid/serous/clear cell] endometrial cancer, status post [total hysterectomy and bilateral salpingo-oophorectomy], [adjuvant radiation/chemotherapy/both], completed [date]."
+                </div>
+
+                <h3>Key Points to Cover</h3>
+                <ul>
+                    <li><strong>Vaginal bleeding or discharge</strong> - any post-menopausal bleeding</li>
+                    <li><strong>Pelvic or back pain</strong></li>
+                    <li><strong>Abdominal symptoms</strong> - bloating, ascites</li>
+                    <li><strong>Weight changes</strong></li>
+                    <li><strong>Lymphedema</strong> - lower extremity swelling</li>
+                    <li><strong>Menopausal symptoms</strong> if premenopausal at diagnosis</li>
+                </ul>
+
+                <h3>Physical Exam</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Speculum exam shows vaginal vault is well-healed with no masses or lesions. No abnormal discharge. Bimanual exam shows no pelvic masses or nodularity. Abdomen is soft, non-tender, no masses or organomegaly. No lower extremity edema."
+                </div>
+            </div>
+        </div>
+
+        <!-- BREAST CANCER -->
+        <div class="card collapsed" id="card-breast">
+            <div class="card-header" onclick="toggleCard('breast')">
+                <div class="card-title">🎗️ Breast Cancer</div>
                 <div class="card-toggle">▼</div>
             </div>
             <div class="card-body">
                 <h3>Opening</h3>
                 <div class="template">
                     <button class="copy-btn" onclick="copy(this)">Copy</button>
-                    "This is a post-treatment visit for [patient name] with [stage/grade] endometrial cancer, status post [hysterectomy/BSO], [adjuvant radiation/chemotherapy], completed [date]."
+                    "This is a follow-up visit for [patient name], a [age]-year-old female with a history of [stage] [type] breast cancer, diagnosed in [month/year], status post [treatment: lumpectomy/mastectomy, chemotherapy, radiation]. She is currently on [hormonal therapy/none]."
                 </div>
 
                 <h3>Key Points</h3>
                 <ul>
-                    <li>Vaginal bleeding or discharge</li>
-                    <li>Pelvic or back pain</li>
-                    <li>Weight changes</li>
-                    <li>Hormone replacement therapy discussion</li>
-                    <li>Lymphedema screening</li>
+                    <li>Time since diagnosis and treatment</li>
+                    <li>Current medications (tamoxifen, aromatase inhibitors)</li>
+                    <li>Side effects and adherence</li>
+                    <li>New symptoms: pain, masses, skin changes</li>
+                    <li>Lymphedema assessment</li>
                 </ul>
+
+                <h3>Exam</h3>
+                <div class="template">
+                    <button class="copy-btn" onclick="copy(this)">Copy</button>
+                    "Breast exam: Surgical site is well-healed with no masses, skin changes, or lymphedema. Opposite breast shows no masses or abnormalities. Lymph node exam is unremarkable."
+                </div>
             </div>
         </div>
 
@@ -444,17 +502,17 @@
     </div>
 
     <div class="quick-nav">
-        <button class="nav-btn" onclick="scrollTo('card-quick')">
-            <span class="nav-icon">⚡</span>
-            <span>Quick</span>
-        </button>
-        <button class="nav-btn" onclick="scrollTo('card-breast')">
-            <span class="nav-icon">🎗️</span>
-            <span>Breast</span>
-        </button>
         <button class="nav-btn" onclick="scrollTo('card-ovarian')">
             <span class="nav-icon">🩺</span>
             <span>Ovarian</span>
+        </button>
+        <button class="nav-btn" onclick="scrollTo('card-cervical')">
+            <span class="nav-icon">🔬</span>
+            <span>Cervical</span>
+        </button>
+        <button class="nav-btn" onclick="scrollTo('card-quick')">
+            <span class="nav-icon">⚡</span>
+            <span>Quick</span>
         </button>
     </div>
 
