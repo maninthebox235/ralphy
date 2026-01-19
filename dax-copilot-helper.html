@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="DAX Helper">
+    <meta name="theme-color" content="#2563eb">
+    <title>DAX Co-Pilot Helper - Women's Health Oncology</title>
+    
+    <!-- PWA Icons - using emoji as placeholder -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232563eb'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>📋</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #0891b2;
+            --success-color: #059669;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --hover-bg: #f1f5f9;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --hover-bg: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            max-width: 1400px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 0.375rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background-color: var(--hover-bg);
+            padding-left: 1rem;
+        }
+
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .main-content {
+            min-width: 0;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            scroll-margin-top: 120px;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h3 {
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .section h4 {
+            color: var(--text-color);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .collapsible-header {
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .collapsible-header::before {
+            content: '▼';
+            font-size: 0.875rem;
+            transition: transform 0.3s;
+        }
+
+        .collapsible-header.collapsed::before {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsible-content.collapsed {
+            max-height: 0 !important;
+        }
+
+        .template-box {
+            background-color: var(--bg-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.375rem;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.375rem 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+        }
+
+        .copy-btn.copied {
+            background-color: var(--success-color);
+        }
+
+        .favorite-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-left: 0.5rem;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .favorite-btn:hover, .favorite-btn.active {
+            opacity: 1;
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--bg-color);
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge.success {
+            background-color: var(--success-color);
+        }
+
+        .badge.warning {
+            background-color: #f59e0b;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checklist li::before {
+            content: '☐';
+            font-size: 1.25rem;
+            color: var(--text-muted);
+        }
+
+        .highlight {
+            background-color: #fef3c7;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        body.dark-mode .highlight {
+            background-color: #713f12;
+        }
+
+        .favorites-section {
+            background-color: #fef3c7;
+            border: 2px solid #fbbf24;
+        }
+
+        body.dark-mode .favorites-section {
+            background-color: #78350f;
+            border-color: #f59e0b;
+        }
+
+        @media print {
+            .header, .controls, .sidebar, .copy-btn, .favorite-btn, .btn {
+                display: none !important;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 100%;
+            }
+
+            .section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+        .quick-actions {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 0.5rem;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 99;
+        }
+
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quick-action-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .quick-action-btn:active {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(0.95);
+        }
+
+        .quick-action-icon {
+            font-size: 1.25rem;
+        }
+
+        .mobile-fab {
+            display: none;
+            position: fixed;
+            bottom: 5rem;
+            right: 1rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 98;
+            transition: all 0.3s;
+        }
+
+        .mobile-fab:active {
+            transform: scale(0.9);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .mobile-menu-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            border-radius: 1rem 1rem 0 0;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .mobile-menu.active .mobile-menu-content {
+            transform: translateY(0);
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .template-box-alt {
+            background-color: var(--hover-bg);
+        }
+
+        .sample-note-paragraph {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .install-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #059669, #0891b2);
+            color: white;
+            padding: 1rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 101;
+            box-shadow: var(--shadow-lg);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .install-banner.show {
+            display: flex;
+        }
+
+        .install-banner-content {
+            flex: 1;
+            padding-right: 1rem;
+        }
+
+        .install-banner-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .install-banner-text {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .install-banner-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .install-btn {
+            background-color: white;
+            color: #059669;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .install-dismiss {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding-bottom: 5rem;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .header {
+                position: relative;
+                padding: 1.5rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .controls .btn {
+                display: none;
+            }
+
+            .section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .section h2 {
+                font-size: 1.4rem;
+            }
+
+            .quick-actions {
+                display: block;
+            }
+
+            .mobile-fab {
+                display: block;
+            }
+
+            .template-box {
+                padding-right: 4rem;
+            }
+
+            .copy-btn {
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateY(1rem);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        code {
+            background-color: var(--bg-color);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Install Banner -->
+    <div class="install-banner" id="installBanner">
+        <div class="install-banner-content">
+            <div class="install-banner-title">📱 Add to Home Screen</div>
+            <div class="install-banner-text">Quick access during patient visits</div>
+        </div>
+        <div class="install-banner-actions">
+            <button class="install-btn" onclick="installApp()">Install</button>
+            <button class="install-dismiss" onclick="dismissInstallBanner()">Later</button>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>📋 DAX Co-Pilot Helper</h1>
+        <p>Women's Health Oncology - Nurse Practitioner Guide</p>
+    </div>
+
+    <div class="controls">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search phrases, templates, or topics...">
+        </div>
+        <button class="btn btn-secondary" onclick="toggleDarkMode()">🌓 Dark Mode</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+        <button class="btn btn-secondary" onclick="expandAll()">📖 Expand All</button>
+        <button class="btn btn-secondary" onclick="collapseAll()">📕 Collapse All</button>
+    </div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>Navigation</h3>
+            <nav id="navigation"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div id="favorites-container"></div>
+
+            <section class="section" id="quick-start">
+                <h2 class="collapsible-header">🎯 Quick Start Tips<button class="favorite-btn" onclick="toggleFavorite(this, 'quick-start')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <h3>Before the Visit</h3>
+                    <ul>
+                        <li>✅ Review patient chart and previous DAX notes</li>
+                        <li>✅ Ensure DAX app is open and ready</li>
+                        <li>✅ Check microphone permissions and audio quality</li>
+                        <li>✅ Have template phrases ready for common scenarios</li>
+                    </ul>
+                    
+                    <h3>During Recording</h3>
+                    <ul>
+                        <li>🎤 Speak clearly and at normal pace</li>
+                        <li>🎤 Use full medical terms (avoid abbreviations when speaking)</li>
+                        <li>🎤 Structure your conversation chronologically</li>
+                        <li>🎤 Mention key findings as you examine</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="command-phrases">
+                <h2 class="collapsible-header">📋 Essential Command Phrases<button class="favorite-btn" onclick="toggleFavorite(this, 'command-phrases')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <h3>Starting the Visit</h3>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "This is a <strong>[new/follow-up/surveillance]</strong> visit for <strong>[patient name]</strong>"
+                    </div>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "Patient is here for <strong>[chief complaint]</strong>"
+                    </div>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "Patient has a history of <strong>[relevant oncology diagnosis]</strong>"
+                    </div>
+
+                    <h3>History Taking</h3>
+                    <ul>
+                        <li>"Patient reports..."</li>
+                        <li>"She states..."</li>
+                        <li>"She denies..."</li>
+                        <li>"On review of systems, positive for... negative for..."</li>
+                        <li>"Family history includes..."</li>
+                        <li>"Social history: patient is a <strong>[occupation]</strong>, <strong>[tobacco/alcohol/drug use]</strong>"</li>
+                    </ul>
+
+                    <h3>Physical Exam</h3>
+                    <ul>
+                        <li>"On physical examination..."</li>
+                        <li>"Vital signs show..."</li>
+                        <li>"General appearance is..."</li>
+                        <li>"Breast exam reveals..."</li>
+                        <li>"Pelvic exam shows..."</li>
+                        <li>"Lymph node exam is unremarkable/shows..."</li>
+                        <li>"Abdominal exam reveals..."</li>
+                    </ul>
+
+                    <h3>Assessment & Plan</h3>
+                    <ul>
+                        <li>"My assessment is..."</li>
+                        <li>"The plan is to..."</li>
+                        <li>"I will order..."</li>
+                        <li>"I discussed with the patient..."</li>
+                        <li>"Patient understands and agrees with the plan"</li>
+                        <li>"Follow-up in <strong>[timeframe]</strong>"</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="oncology-templates">
+                <h2 class="collapsible-header">🏥 Women's Health Oncology Templates<button class="favorite-btn" onclick="toggleFavorite(this, 'oncology-templates')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <h3>Breast Cancer Surveillance Visit</h3>
+                    <h4>Opening:</h4>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "This is a follow-up visit for [patient name], a [age]-year-old female with a history of [stage] [type] breast cancer, diagnosed in [month/year], status post [treatment: lumpectomy/mastectomy, chemotherapy, radiation]. She is currently on [hormonal therapy/none]."
+                    </div>
+                    <h4>Key Elements to Mention:</h4>
+                    <ul>
+                        <li>Time since diagnosis and treatment completion</li>
+                        <li>Current medications (tamoxifen, aromatase inhibitors, etc.)</li>
+                        <li>Medication adherence and side effects</li>
+                        <li>Symptoms: pain, masses, skin changes, nipple discharge</li>
+                        <li>Lymphedema assessment</li>
+                        <li>Menopausal symptoms if relevant</li>
+                        <li>Bone health status</li>
+                    </ul>
+                    <h4>Exam Language:</h4>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "Breast exam: Surgical site is well-healed with no masses, skin changes, or lymphedema. Opposite breast shows no masses or abnormalities. Lymph node exam is unremarkable."
+                    </div>
+
+                    <h3>Ovarian Cancer Follow-up</h3>
+                    <h4>Opening:</h4>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "This is a surveillance visit for [patient name] with a history of [stage] [type] ovarian cancer, diagnosed in [month/year], status post [surgical debulking/hysterectomy/BSO], chemotherapy regimen of [specific agents], completed [date]."
+                    </div>
+                    <h4>Key Elements:</h4>
+                    <ul>
+                        <li>CA-125 trends (mention if rising/stable/declining)</li>
+                        <li>Abdominal/pelvic symptoms: bloating, pain, early satiety</li>
+                        <li>Bowel/bladder function</li>
+                        <li>Neuropathy or other chemo side effects</li>
+                        <li>Quality of life assessment</li>
+                    </ul>
+                    <h4>Exam Language:</h4>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "Abdominal exam shows no masses, organomegaly, or ascites. No lymphadenopathy appreciated."
+                    </div>
+
+                    <h3>Cervical Cancer/Dysplasia Visit</h3>
+                    <h4>Opening:</h4>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "Patient presents for [follow-up colposcopy/surveillance] for [CIN 2/3, cervical cancer stage X, HPV-positive high-grade lesion]."
+                    </div>
+                    <h4>Key Elements:</h4>
+                    <ul>
+                        <li>Previous biopsy results and dates</li>
+                        <li>Treatment history (LEEP, cone biopsy, chemoradiation)</li>
+                        <li>HPV status</li>
+                        <li>Abnormal bleeding or discharge</li>
+                        <li>Pain with intercourse</li>
+                    </ul>
+                    <h4>Exam Language:</h4>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "Pelvic exam: External genitalia normal. Speculum exam shows [cervix appears normal/lesion at X o'clock position]. Bimanual exam is non-tender with no masses."
+                    </div>
+
+                    <h3>Endometrial Cancer Follow-up</h3>
+                    <h4>Opening:</h4>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "This is a post-treatment visit for [patient name] with [stage/grade] endometrial cancer, status post [hysterectomy/BSO], [adjuvant radiation/chemotherapy], completed [date]."
+                    </div>
+                    <h4>Key Elements:</h4>
+                    <ul>
+                        <li>Vaginal bleeding or discharge</li>
+                        <li>Pelvic or back pain</li>
+                        <li>Weight changes</li>
+                        <li>Hormone replacement therapy discussion if relevant</li>
+                        <li>Lymphedema screening</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="optimization-tips">
+                <h2 class="collapsible-header">🔑 Optimization Tips<button class="favorite-btn" onclick="toggleFavorite(this, 'optimization-tips')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <h3>1. Use Medical Terminology Correctly</h3>
+                    <ul>
+                        <li>Say the full term: "human papillomavirus" not "HPV" (first mention)</li>
+                        <li>Be specific: "Stage 2A estrogen receptor-positive, HER2-negative invasive ductal carcinoma"</li>
+                        <li>DAX recognizes standard medical terms better than shortcuts</li>
+                    </ul>
+
+                    <h3>2. Structure Your Speech</h3>
+                    <p>Follow this order consistently:</p>
+                    <ol>
+                        <li>Chief Complaint</li>
+                        <li>History of Present Illness</li>
+                        <li>Past Medical History (oncology-specific)</li>
+                        <li>Medications</li>
+                        <li>Review of Systems</li>
+                        <li>Physical Examination</li>
+                        <li>Assessment</li>
+                        <li>Plan</li>
+                    </ol>
+
+                    <h3>3. Be Explicit About Negatives</h3>
+                    <ul>
+                        <li>"She denies chest pain, shortness of breath, and palpitations"</li>
+                        <li>"No nausea, vomiting, or diarrhea"</li>
+                        <li>"No new lumps or masses"</li>
+                        <li>This helps with billing and compliance</li>
+                    </ul>
+
+                    <h3>4. Mention Time Frames</h3>
+                    <ul>
+                        <li>"Symptoms started three weeks ago"</li>
+                        <li>"Last chemotherapy was two months ago"</li>
+                        <li>"Follow-up in three months"</li>
+                    </ul>
+
+                    <h3>5. State Lab Values</h3>
+                    <ul>
+                        <li>"CA-125 today is 15, which is stable from last visit"</li>
+                        <li>"Hemoglobin is 11.2, down from 12.5 last month"</li>
+                        <li>"White blood cell count is within normal limits"</li>
+                    </ul>
+
+                    <h3>6. Document Shared Decision Making</h3>
+                    <ul>
+                        <li>"I discussed the risks and benefits of continued surveillance versus intervention"</li>
+                        <li>"Patient prefers to proceed with..."</li>
+                        <li>"We reviewed the treatment options including..."</li>
+                        <li>"Patient's questions were answered to her satisfaction"</li>
+                    </ul>
+
+                    <h3>7. Prescriptions & Orders</h3>
+                    <p>Be specific when mentioning:</p>
+                    <ul>
+                        <li>"I am prescribing [medication name] [dose] [frequency] for [indication]"</li>
+                        <li>"I am ordering a [test name] to evaluate [indication]"</li>
+                        <li>"I am referring to [specialist] for [reason]"</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="pitfalls">
+                <h2 class="collapsible-header">💡 Common Pitfalls to Avoid<button class="favorite-btn" onclick="toggleFavorite(this, 'pitfalls')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>❌ Avoid</th>
+                                <th>✅ Better</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>"Um, uh, let me see..."</td>
+                                <td>Pause recording, then resume</td>
+                            </tr>
+                            <tr>
+                                <td>Abbreviations: "s/p, h/o, PMH"</td>
+                                <td>"Status post, history of, past medical history"</td>
+                            </tr>
+                            <tr>
+                                <td>Side conversations</td>
+                                <td>Pause during irrelevant talk</td>
+                            </tr>
+                            <tr>
+                                <td>Mumbling exam findings</td>
+                                <td>Speak clearly: "Breast exam is unremarkable"</td>
+                            </tr>
+                            <tr>
+                                <td>"She's fine"</td>
+                                <td>"Patient is doing well, no new concerns"</td>
+                            </tr>
+                            <tr>
+                                <td>Forgetting to close</td>
+                                <td>"This completes the visit" or "End of encounter"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="section" id="billing">
+                <h2 class="collapsible-header">📊 Billing & Compliance<button class="favorite-btn" onclick="toggleFavorite(this, 'billing')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <h3>Level of Service Documentation</h3>
+                    <p>To support higher-level billing codes, mention:</p>
+                    <ul>
+                        <li><strong>Complexity:</strong> "Given the patient's complex oncology history..."</li>
+                        <li><strong>Time:</strong> "I spent 45 minutes in face-to-face time with the patient, more than half of which was spent in counseling and coordination of care"</li>
+                        <li><strong>Risk:</strong> "High complexity medical decision-making given..."</li>
+                    </ul>
+
+                    <h3>Required Elements Checklist</h3>
+                    <p>For each visit, verbally cover:</p>
+                    <ul class="checklist">
+                        <li>Chief complaint</li>
+                        <li>Relevant history</li>
+                        <li>Pertinent physical exam</li>
+                        <li>Review of systems (at least 2-9 systems for detailed)</li>
+                        <li>Assessment with ICD-10 relevant diagnoses</li>
+                        <li>Plan with clear next steps</li>
+                        <li>Patient education and shared decision-making</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="troubleshooting">
+                <h2 class="collapsible-header">🔧 Technical Troubleshooting<button class="favorite-btn" onclick="toggleFavorite(this, 'troubleshooting')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <h3>If DAX Misunderstands</h3>
+                    <ul>
+                        <li>Speak more slowly</li>
+                        <li>Enunciate clearly</li>
+                        <li>Spell unusual terms: "The diagnosis is L-E-I-O-M-Y-O-M-A"</li>
+                        <li>Use "period" or "comma" for punctuation</li>
+                    </ul>
+
+                    <h3>Audio Quality Issues</h3>
+                    <ul>
+                        <li>Position microphone 6-12 inches away</li>
+                        <li>Minimize background noise</li>
+                        <li>Use exam room with good acoustics</li>
+                        <li>Test recording before first patient</li>
+                    </ul>
+
+                    <h3>Missing Information</h3>
+                    <ul>
+                        <li>Review the generated note immediately</li>
+                        <li>Add addendums through DAX or EHR</li>
+                        <li>Use DAX's edit feature for corrections</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="quick-reference">
+                <h2 class="collapsible-header">📱 Quick Reference Card<button class="favorite-btn" onclick="toggleFavorite(this, 'quick-reference')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <h3>Opening Template</h3>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "This is a [visit type] for [name], [age]-year-old [sex] with history of [oncology diagnosis], status post [treatment], [current medications/therapies]."
+                    </div>
+
+                    <h3>Key Phrases</h3>
+                    <ul>
+                        <li>"Patient reports..."</li>
+                        <li>"On examination..."</li>
+                        <li>"My assessment is..."</li>
+                        <li>"The plan includes..."</li>
+                        <li>"I ordered..."</li>
+                        <li>"Follow-up in..."</li>
+                    </ul>
+
+                    <h3>Closing Template</h3>
+                    <div class="template-box">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        "Patient understands the plan and her questions were answered. She will follow up [timeframe] or sooner if [red flag symptoms]. This completes the visit."
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="pro-tips">
+                <h2 class="collapsible-header">🎓 Pro Tips<button class="favorite-btn" onclick="toggleFavorite(this, 'pro-tips')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <ol>
+                        <li><strong>Create Mental Templates:</strong> Have 3-5 templates memorized for your most common visit types</li>
+                        <li><strong>Practice Your Flow:</strong> Record a few practice visits to find your rhythm</li>
+                        <li><strong>Review & Refine:</strong> Check your first 10 notes daily and adjust your speaking style</li>
+                        <li><strong>Use Keywords:</strong> DAX recognizes certain keywords like "assessment," "plan," "physical exam"</li>
+                        <li><strong>Pause Strategically:</strong> Use the pause button during interruptions</li>
+                        <li><strong>Review Immediately:</strong> Edit while the visit is fresh in your mind</li>
+                        <li><strong>Batch Editing:</strong> Set aside 15 minutes after your morning and afternoon sessions</li>
+                        <li><strong>Share with Team:</strong> Compare notes with colleagues to learn best practices</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="section" id="success-metrics">
+                <h2 class="collapsible-header">🌟 Success Metrics<button class="favorite-btn" onclick="toggleFavorite(this, 'success-metrics')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <p>Track your improvement:</p>
+                    <ul>
+                        <li>✅ Time saved per note (goal: 5-7 minutes)</li>
+                        <li>✅ Note accuracy (fewer edits needed)</li>
+                        <li>✅ Documentation completeness</li>
+                        <li>✅ Patient satisfaction (more face-time)</li>
+                        <li>✅ Reduced end-of-day charting</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="sample-note">
+                <h2 class="collapsible-header">📝 Sample Complete Note Script<button class="favorite-btn" onclick="toggleFavorite(this, 'sample-note')">⭐</button></h2>
+                <div class="collapsible-content">
+                    <h3>Scenario: Breast Cancer Surveillance Visit</h3>
+                    <div class="template-box template-box-alt">
+                        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+                        <p class="sample-note-paragraph">"This is a six-month surveillance visit for Jane Smith, a 54-year-old female with a history of stage 2A estrogen receptor-positive, progesterone receptor-positive, HER2-negative invasive ductal carcinoma of the left breast, diagnosed in March 2024. She underwent left breast lumpectomy with sentinel lymph node biopsy in April 2024, followed by adjuvant chemotherapy with dose-dense AC-T, completed in September 2024, and adjuvant radiation therapy completed in November 2024. She is currently on anastrozole one milligram daily.</p>
+
+                        <p class="sample-note-paragraph">Patient reports she is tolerating anastrozole well with mild joint stiffness in the morning that resolves with activity. She denies any new breast masses, skin changes, nipple discharge, or arm swelling. She reports hot flashes occurring about five times per day which are manageable. No bone pain. She is exercising regularly and maintaining her weight. She denies any fevers, night sweats, or unintentional weight loss.</p>
+
+                        <p class="sample-note-paragraph">Past medical history is significant for hypertension and hypothyroidism, both well-controlled. Current medications include anastrozole one milligram daily, levothyroxine 75 micrograms daily, and lisinopril 10 milligrams daily. She has no known drug allergies.</p>
+
+                        <p class="sample-note-paragraph">On review of systems, she denies chest pain, shortness of breath, abdominal pain, nausea, vomiting, changes in bowel or bladder habits. She endorses the hot flashes and joint stiffness as mentioned.</p>
+
+                        <p class="sample-note-paragraph">Physical examination: Vital signs show blood pressure 128 over 78, heart rate 72, temperature 98.6 Fahrenheit. General appearance: well-appearing, in no acute distress. Breast exam: Left breast surgical site is well-healed with no masses, skin changes, or erythema. Right breast shows no masses, skin changes, or nipple discharge. No axillary or supraclavicular lymphadenopathy bilaterally. Chest is clear to auscultation. Cardiovascular exam reveals regular rate and rhythm. Abdomen is soft, non-tender, non-distended with no masses or organomegaly.</p>
+
+                        <p class="sample-note-paragraph">My assessment is that this is a 54-year-old female with stage 2A hormone receptor-positive breast cancer, status post lumpectomy, chemotherapy, and radiation, currently on anastrozole, doing well with no evidence of recurrence. She is tolerating hormonal therapy with manageable side effects.</p>
+                        
+                        <p>The plan is to continue anastrozole one milligram daily. I reviewed the importance of medication adherence. For her joint stiffness, I recommended regular exercise and stretching, and she may take over-the-counter ibuprofen as needed. We discussed that she will need bone density screening, which I am ordering today. I am also ordering bilateral screening mammogram and left breast tomosynthesis to be completed within the next month. She will continue to follow up with me in six months or sooner if she develops any concerning symptoms including new lumps, persistent pain, or significant changes in side effects. We discussed red flag symptoms including severe bone pain, neurological changes, or persistent cough that would warrant earlier evaluation. Patient verbalized understanding of the plan and all her questions were answered. This completes the visit."</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="footer-section">
+                <p>Created with ❤️ for efficient, accurate clinical documentation</p>
+                <p><em>Last Updated: January 2026</em></p>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Mobile Quick Actions Bar -->
+    <div class="quick-actions">
+        <div class="quick-actions-grid">
+            <button class="quick-action-btn" onclick="scrollToSection('command-phrases')">
+                <span class="quick-action-icon">📋</span>
+                <span>Phrases</span>
+            </button>
+            <button class="quick-action-btn" onclick="scrollToSection('oncology-templates')">
+                <span class="quick-action-icon">🏥</span>
+                <span>Templates</span>
+            </button>
+            <button class="quick-action-btn" onclick="scrollToSection('quick-reference')">
+                <span class="quick-action-icon">⚡</span>
+                <span>Quick Ref</span>
+            </button>
+            <button class="quick-action-btn" onclick="toggleMobileMenu()">
+                <span class="quick-action-icon">☰</span>
+                <span>Menu</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile FAB for Search -->
+    <button class="mobile-fab" onclick="focusSearch()" title="Search">
+        🔍
+    </button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu" onclick="closeMobileMenuOnBackdrop(event)">
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-header">
+                <h3>All Sections</h3>
+                <button class="mobile-menu-close" onclick="toggleMobileMenu()">✕</button>
+            </div>
+            <nav id="mobileNavigation"></nav>
+        </div>
+    </div>
+
+    <script>
+        // Initialize navigation
+        function initNavigation() {
+            const sections = document.querySelectorAll('.section');
+            const nav = document.getElementById('navigation');
+            const mobileNav = document.getElementById('mobileNavigation');
+            
+            sections.forEach(section => {
+                const link = document.createElement('a');
+                link.href = `#${section.id}`;
+                link.className = 'nav-link';
+                link.textContent = section.querySelector('h2').textContent.replace('⭐', '').trim();
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    scrollToSection(section.id);
+                    updateActiveLink();
+                    toggleMobileMenu(false);
+                };
+                nav.appendChild(link);
+                
+                // Clone for mobile menu
+                const mobileLink = link.cloneNode(true);
+                mobileLink.onclick = link.onclick;
+                mobileNav.appendChild(mobileLink);
+            });
+        }
+
+        // Scroll to section helper
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu(show) {
+            const menu = document.getElementById('mobileMenu');
+            if (show === undefined) {
+                menu.classList.toggle('active');
+            } else if (show) {
+                menu.classList.add('active');
+            } else {
+                menu.classList.remove('active');
+            }
+            
+            // Prevent body scroll when menu is open
+            if (menu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMobileMenuOnBackdrop(event) {
+            if (event.target.id === 'mobileMenu') {
+                toggleMobileMenu(false);
+            }
+        }
+
+        // Focus search input
+        function focusSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.focus();
+            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Update active navigation link
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                const content = section.textContent.toLowerCase();
+                if (content.includes(searchTerm)) {
+                    section.style.display = 'block';
+                    
+                    // Highlight matching text
+                    if (searchTerm) {
+                        highlightText(section, searchTerm);
+                    } else {
+                        removeHighlights(section);
+                    }
+                } else {
+                    section.style.display = searchTerm ? 'none' : 'block';
+                }
+            });
+        });
+
+        function highlightText(element, term) {
+            const textNodes = getTextNodes(element);
+            textNodes.forEach(node => {
+                const text = node.textContent;
+                const regex = new RegExp(`(${term})`, 'gi');
+                if (regex.test(text)) {
+                    const span = document.createElement('span');
+                    span.innerHTML = text.replace(regex, '<mark>$1</mark>');
+                    node.parentNode.replaceChild(span, node);
+                }
+            });
+        }
+
+        function removeHighlights(element) {
+            const marks = element.querySelectorAll('mark');
+            marks.forEach(mark => {
+                mark.parentNode.replaceChild(document.createTextNode(mark.textContent), mark);
+            });
+        }
+
+        function getTextNodes(element) {
+            const textNodes = [];
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            let node;
+            while (node = walker.nextNode()) {
+                if (node.textContent.trim()) {
+                    textNodes.push(node);
+                }
+            }
+            return textNodes;
+        }
+
+        // Copy to clipboard
+        function copyText(button) {
+            const templateBox = button.parentElement;
+            const text = templateBox.textContent.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = '✓ Copied!';
+                button.classList.add('copied');
+                showToast('Copied to clipboard!');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+        }
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Collapsible sections
+        document.querySelectorAll('.collapsible-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const isCollapsed = this.classList.contains('collapsed');
+                
+                if (isCollapsed) {
+                    this.classList.remove('collapsed');
+                    content.classList.remove('collapsed');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    this.classList.add('collapsed');
+                    content.classList.add('collapsed');
+                    content.style.maxHeight = '0';
+                }
+            });
+            
+            // Set initial max-height
+            const content = header.nextElementSibling;
+            content.style.maxHeight = content.scrollHeight + 'px';
+        });
+
+        // Expand/Collapse all
+        function expandAll() {
+            document.querySelectorAll('.collapsible-header').forEach(header => {
+                header.classList.remove('collapsed');
+                const content = header.nextElementSibling;
+                content.classList.remove('collapsed');
+                content.style.maxHeight = content.scrollHeight + 'px';
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.collapsible-header').forEach(header => {
+                header.classList.add('collapsed');
+                const content = header.nextElementSibling;
+                content.classList.add('collapsed');
+                content.style.maxHeight = '0';
+            });
+        }
+
+        // Favorites functionality
+        let favorites = JSON.parse(localStorage.getItem('daxFavorites') || '[]');
+
+        function toggleFavorite(button, sectionId) {
+            const index = favorites.indexOf(sectionId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                button.classList.remove('active');
+            } else {
+                favorites.push(sectionId);
+                button.classList.add('active');
+            }
+            localStorage.setItem('daxFavorites', JSON.stringify(favorites));
+            updateFavoritesSection();
+            showToast(index > -1 ? 'Removed from favorites' : 'Added to favorites');
+        }
+
+        function updateFavoritesSection() {
+            const container = document.getElementById('favorites-container');
+            
+            if (favorites.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '<section class="section favorites-section"><h2>⭐ Your Favorites</h2><div class="collapsible-content"><ul>';
+            
+            favorites.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const title = section.querySelector('h2').textContent.replace('⭐', '').trim();
+                    html += `<li><a href="#${sectionId}" onclick="document.getElementById('${sectionId}').scrollIntoView({behavior: 'smooth'})">${title}</a></li>`;
+                }
+            });
+            
+            html += '</ul></div></section>';
+            container.innerHTML = html;
+        }
+
+        // Load favorites on page load
+        favorites.forEach(sectionId => {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const button = section.querySelector('.favorite-btn');
+                if (button) button.classList.add('active');
+            }
+        });
+
+        // PWA Install functionality
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install banner if not dismissed before
+            if (!localStorage.getItem('installDismissed')) {
+                setTimeout(() => {
+                    document.getElementById('installBanner').classList.add('show');
+                }, 2000);
+            }
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('App installed! Find it on your home screen.');
+                    }
+                    deferredPrompt = null;
+                    dismissInstallBanner();
+                });
+            } else {
+                // iOS instructions
+                if (isIOS()) {
+                    showIOSInstructions();
+                }
+            }
+        }
+
+        function dismissInstallBanner() {
+            document.getElementById('installBanner').classList.remove('show');
+            localStorage.setItem('installDismissed', 'true');
+        }
+
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+
+        function showIOSInstructions() {
+            const message = isIOS() 
+                ? 'To install: Tap Share button (⎙) → Add to Home Screen' 
+                : 'Installation not available in this browser';
+            alert(message);
+        }
+
+        // Service Worker registration (optional - for offline support)
+        if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+            // Uncomment if you create a service worker file
+            // navigator.serviceWorker.register('sw.js');
+        }
+
+        // Initialize
+        window.addEventListener('scroll', updateActiveLink);
+        window.addEventListener('load', () => {
+            initNavigation();
+            updateActiveLink();
+            updateFavoritesSection();
+            
+            // Show install banner on mobile if not installed
+            if (window.matchMedia('(max-width: 968px)').matches && 
+                !window.matchMedia('(display-mode: standalone)').matches &&
+                !localStorage.getItem('installDismissed')) {
+                setTimeout(() => {
+                    if (!deferredPrompt && isIOS()) {
+                        document.getElementById('installBanner').classList.add('show');
+                    }
+                }, 3000);
+            }
+        });
+
+        // Prevent zoom on double-tap for iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (event) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
